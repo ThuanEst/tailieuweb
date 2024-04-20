@@ -15,6 +15,7 @@
                   <th scope="col">#</th>
                   <th scope="col">UserName</th>
                   <th scope="col">Email</th>
+                  <th scope="col">Favorities</th>
                   <th scope="col">Thao Tác</th>
                 </tr>
               </thead>
@@ -24,6 +25,7 @@
                   <th scope="row">{{ $user->id }}</th>
                   <td>{{ $user->name }}</td>
                   <td>{{ $user->email }}</td>
+                  <td>{{ $user->favorities }}</td>
                   <td>
                     <div class="row">
                       <div class="col ">

@@ -17,6 +17,11 @@
                         <td>Email</td>
                         <td>{{ $user->email }}</td>
                     </tr>
+
+                    <tr>
+                        <td>Favorities</td>
+                        <td>{{ $user->favorities }}</td>
+                    </tr>
                 </table>
                 <a href="{{ route('user.updateUser', ['id' => $user->id]) }}" class="btn-edit">Chỉnh sửa</a>
             </div>

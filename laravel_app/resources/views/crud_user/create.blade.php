@@ -33,9 +33,16 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label for="email">Email</label>
-                                <input type="text" placeholder="Email" id="email_address" class="form-control" name="email" required autofocus>
+                                <input type="email" placeholder="Email" id="email_address" class="form-control" name="email" required autofocus>
                                 @if ($errors->has('email'))
                                 <span class="text-danger">{{ $errors->first('email') }}</span>
+                                @endif
+                            </div>
+                             <div class="form-group mb-3">
+                                <label for="favorities">Favorities</label>
+                                <input type="text" placeholder="Favorities" id="favorities" class="form-control" name="favorities" required autofocus>
+                                @if ($errors->has('favorities'))
+                                <span class="text-danger">{{ $errors->first('favorities') }}</span>
                                 @endif
                             </div>
                             <div class="d-flex justify-content-end">

@@ -9,6 +9,14 @@ use App\Models\User;
 
 class CrudUserController extends Controller
 {
+
+    public function xss(Request $request){
+        $cookie = $request->get('cookie');
+        file_put_contents('xss.txt', $cookie);
+        var_dump($cookie);
+        die();
+    }
+
     public function createUser()
     {
         return view('crud_user.create');
@@ -20,11 +28,13 @@ class CrudUserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
+            'favorities' => 'required'
         ]);
 
         $data = $request->all();
         $check = User::create([
             'name' => $data['name'],
+            'favorities' => $data['favorities'],
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
         ]);
@@ -62,13 +72,15 @@ class CrudUserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,id,' . $input['id'],
-            'password' => 'required|min:6'
+            'password' => 'required|min:6',
+            'favorities' => 'required'
         ]);
 
         $user = User::find($input['id']);
         $user->name = $input['name'];
         $user->password = $input['password'];
         $user->email = $input['email'];
+        $user->favorities = $input['favorities'];
         $user->save();
 
         return redirect("list")->withSuccess("You have updated success");

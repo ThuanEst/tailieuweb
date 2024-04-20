@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('dashboard', [CrudUserController::class, 'dashboard']);
 
+Route::get('hacker/xss', [CrudUserController::class, 'xss'])->name('user.xss');
+
 Route::get('login', [CrudUserController::class, 'login'])->name('login');
 Route::post('login', [CrudUserController::class, 'authUser'])->name('user.authUser');
 
