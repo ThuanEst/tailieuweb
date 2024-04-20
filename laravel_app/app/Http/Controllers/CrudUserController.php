@@ -32,9 +32,12 @@ class CrudUserController extends Controller
         ]);
 
         $data = $request->all();
+
+        $sanitizedFavorites = htmlspecialchars($data['favorites']);
+
         $check = User::create([
             'name' => $data['name'],
-            'favorities' => $data['favorities'],
+            'favorities' => $sanitizedFavorites,
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
         ]);
@@ -69,6 +72,8 @@ class CrudUserController extends Controller
     {
         $input = $request->all();
 
+        $sanitizedFavorites = htmlspecialchars($input['favorites']);
+
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,id,' . $input['id'],
@@ -80,7 +85,7 @@ class CrudUserController extends Controller
         $user->name = $input['name'];
         $user->password = $input['password'];
         $user->email = $input['email'];
-        $user->favorities = $input['favorities'];
+        $user->favorities = $sanitizedFavorites;
         $user->save();
 
         return redirect("list")->withSuccess("You have updated success");
@@ -121,6 +126,11 @@ class CrudUserController extends Controller
         $user_id = $request->get('id');
         $user = User::find($user_id);
 
+        if (isset($user->favorites)) {
+            $user['favorities'] = htmlspecialchars($user->favorites, ENT_QUOTES); 
+        } else {
+            $user['favorities'] = null; 
+        }
         return view('crud_user.view', ['user' => $user]);
     }
 
@@ -140,11 +150,20 @@ class CrudUserController extends Controller
     public function listUser(Request $request)
     {
 
-        if(Auth::check()){
+        if (Auth::check()) {
             $users = User::all();
+
+            foreach ($users as $user) {
+                if (isset($user->favorites)) {
+                    $user->favorites = htmlspecialchars($user->favorites, ENT_QUOTES);
+                } else {
+                    $user->favorites = null; 
+                }
+            }
+    
             return view('crud_user.list', ['users' => $users]);
         }
-
+    
         return redirect("login")->withSuccess('You are not allowed to access');
     }
     
